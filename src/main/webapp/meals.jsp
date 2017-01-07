@@ -12,10 +12,11 @@
     <title>Meal list</title>
 
     <style>
-        .normal{
+        .normal {
             color: green;
         }
-        .exceed{
+
+        .exceed {
             color: red;
         }
     </style>
@@ -24,14 +25,16 @@
 <body>
 <h2><a href="index.html">Home</a></h2>
 <h2>Meal list</h2>
-
+<a href="meals?action=create">Add meal</a>
 <table border="2" cellpadding="8" cellspacing="1">
     <thead>
-        <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Calories</th>
-        </tr>
+    <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Calories</th>
+        <th></th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
     <c:forEach var="mealExceed" items="${mealWithExceedList}">
@@ -40,10 +43,11 @@
             <td>${mealExceed.dateTime.toLocalDate()} ${mealExceed.dateTime.toLocalTime()}</td>
             <td>${mealExceed.description}</td>
             <td>${mealExceed.calories}</td>
+            <td><a href="meals?action=update&id=${mealExceed.id}">Update</a></td>
+            <td><a href="meals?action=delete&id=${mealExceed.id}">Delete</a></td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
-
 </body>
 </html>
