@@ -8,8 +8,11 @@ import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkIdConsistent;
@@ -52,5 +55,20 @@ public class MealRestController {
         int userId = AuthorizedUser.id();
         LOG.info("getAll for User {}", userId);
         return MealsUtil.getWithExceeded(service.getAll(userId), AuthorizedUser.getCaloriesPerDay());
+    }
+
+    public List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime){
+        int userId = AuthorizedUser.id();
+        LOG.info("getBetween dates {} - {} for time {} - {} for User {}", startDate, endDate, startTime, endTime, userId);
+
+        return MealsUtil.getFilteredWithExceeded(
+                service.getBetweenDates(
+                        startDate != null ? startDate : DateTimeUtil.MIN_DATE,
+                        endDate != null ? endDate : DateTimeUtil.MAX_DATE,
+                        userId),
+                startTime != null ? startTime : LocalTime.MIN,
+                endTime != null ? endTime : LocalTime.MAX,
+                AuthorizedUser.getCaloriesPerDay()
+        );
     }
 }

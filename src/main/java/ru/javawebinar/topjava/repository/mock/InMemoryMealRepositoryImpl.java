@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.repository.mock;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl.ADMIN_ID;
 import static ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl.USER_ID;
@@ -61,10 +63,23 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public Collection<Meal> getAll(int userId) {
+        return getSortedStream(userId)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Meal> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
+        Objects.requireNonNull(startDateTime);
+        Objects.requireNonNull(endDateTime);
+        return getSortedStream(userId)
+                .filter(meal -> DateTimeUtil.isBetween(meal.getDateTime(), startDateTime, endDateTime))
+                .collect(Collectors.toList());
+    }
+
+    private Stream<Meal> getSortedStream(int userId){
         Map<Integer, Meal> mealMap = repository.get(userId);
         return mealMap.values().stream()
-                .sorted(MEAL_COMPARATOR)
-                .collect(Collectors.toList());
+                .sorted(MEAL_COMPARATOR);
     }
 }
 
