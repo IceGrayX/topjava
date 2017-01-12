@@ -1,5 +1,6 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/42d8b66dca654cbebfccd6660ae3b5c9)](https://www.codacy.com/app/IceGrayX/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IceGrayX/topjava&amp;utm_campaign=Badge_Grade)
 [![Dependency Status](https://dependencyci.com/github/IceGrayX/topjava/badge)](https://dependencyci.com/github/IceGrayX/topjava)
+[![Build Status](https://travis-ci.org/IceGrayX/topjava.svg?branch=master)](https://travis-ci.org/IceGrayX/topjava)
 
 Java Enterprise Online Project 
 ===============================
